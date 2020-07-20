@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404 ,render
+from listings.choices import price_choices, bedroom_choices, state_choices
 
 from .models import Listing
 
@@ -14,8 +15,17 @@ def index(request):
 
 def listing(request, listing_id):
 
-    return render(request, 'listings/listings.html')
+    listing = get_object_or_404(Listing, pk = listing_id)
+    context = {
+        'listing':listing
+    }
+    return render(request, 'listings/listing.html',context)
 
 
 def search(request):
-    return render(request, 'listings/search.html')    
+    context = {
+        'state_choices':state_choices,
+        'bedroom_choices':bedroom_choices, 
+        'price_choices':price_choices
+    }
+    return render(request, 'listings/search.html',context)    
